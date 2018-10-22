@@ -96,6 +96,11 @@ class Calculator(QWidget):
         else:
             self.display.setText(self.display.text() + key)
 
+    def keyPressEvent(self,e):
+        if e.key()==Qt.Key_Escape:
+            self.close()
+
+
 
 if __name__ == '__main__':
 
