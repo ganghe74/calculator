@@ -75,7 +75,6 @@ class Calculator(QWidget):
 
         if self.display.text() == 'Error!':
             self.display.setText('')
-
         button = self.sender()
         key = button.text()
 
@@ -90,7 +89,7 @@ class Calculator(QWidget):
         elif key in constantList:
             self.display.setText(self.display.text() + consDictionary[key])
         elif key in functionList:
-            n = self.display.text()
+            n=self.display.text()
             value = funcDictionary[key](n)
             self.display.setText(str(value))
         else:
