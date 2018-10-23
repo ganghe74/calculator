@@ -1,26 +1,12 @@
+#07-2 계산기 코드 개선 및 기능 추가 과제
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtWidgets import QLineEdit, QToolButton
-from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QLayout, QGridLayout
 
 from keypad import numPadList, operatorList, constantList, functionList
-from calcDictionaries import *
-
-class Button(QToolButton):
-
-    def __init__(self, text, callback):
-        super().__init__()
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        self.setText(text)
-        self.clicked.connect(callback)
-
-    def sizeHint(self):
-        size = super(Button, self).sizeHint()
-        size.setHeight(size.height() + 20)
-        size.setWidth(max(size.width(), size.height()))
-        return size
-
+from calcDictionaries import consDictionary, funcDictionary
+from Button import Button
 
 class Calculator(QWidget):
 
@@ -87,6 +73,8 @@ class Calculator(QWidget):
             self.display.setText(result)
         elif key == 'C':
             self.display.clear()
+        elif key == 'CE':
+            self.display.setText(self.display.text()[:-1])
         elif key in constantList:
             self.display.setText(self.display.text() + consDictionary[key])
         elif key in functionList:
@@ -99,8 +87,6 @@ class Calculator(QWidget):
     def keyPressEvent(self,e):
         if e.key()==Qt.Key_Escape:
             self.close()
-
-
 
 if __name__ == '__main__':
 
