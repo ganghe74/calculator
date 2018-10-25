@@ -1,11 +1,11 @@
-#07-2 계산기 코드 개선 및 기능 추가 과제
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWidgets import QLineEdit
 from PyQt5.QtWidgets import QLayout, QGridLayout
 
-from keypad import numPadList, operatorList, constantList, functionList
-from calcDictionaries import consDictionary, funcDictionary
+from keypad import numPadList, operatorList
+from functions import functionMap, functionList
+from constants import constantMap, constantList
 from Button import Button
 
 class Calculator(QWidget):
@@ -17,7 +17,7 @@ class Calculator(QWidget):
         self.display = QLineEdit()
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
-        self.display.setMaxLength(15)
+        self.display.setMaxLength(40)
 
         # Button Creation and Placement
         numLayout = QGridLayout()
@@ -61,6 +61,7 @@ class Calculator(QWidget):
 
         if self.display.text() == 'Error!':
             self.display.setText('')
+
         button = self.sender()
         key = button.text()
 
@@ -75,10 +76,10 @@ class Calculator(QWidget):
         elif key == '←':
             self.display.setText(self.display.text()[:-1])
         elif key in constantList:
-            self.display.setText(self.display.text() + consDictionary[key])
+            self.display.setText(self.display.text() + constantMap[constantList.index(key)][1])
         elif key in functionList:
-            n=self.display.text()
-            value = funcDictionary[key](n)
+            n = self.display.text()
+            value = functionMap[functionList.index(key)][1](n)
             self.display.setText(str(value))
         else:
             self.display.setText(self.display.text() + key)
@@ -95,4 +96,3 @@ if __name__ == '__main__':
     calc = Calculator()
     calc.show()
     sys.exit(app.exec_())
-
