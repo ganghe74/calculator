@@ -25,4 +25,38 @@ def binToDec(numStr):
     return r
 
 def decToRoman(numStr):
-    return 'dec -> Roman'
+    result=''
+    try:
+
+        n = int(numStr)
+        ##움수일 경우에 앞에 음수부호를 붙일수 있도록 함
+        if numStr[0]=='-':
+            result='-'
+            n=int(numStr)
+            n*=-1
+    except:
+        return 'Error!'
+    
+    if n>= 4000:
+        return 'Error!'
+    if n==0:
+        return 'Zero'
+    
+    romans = [
+        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
+         (100, 'C'),  (90, 'XC'),  (50, 'L'),  (40, 'XL'),
+          (10, 'X'),   (9, 'IX'),   (5, 'V'),   (4, 'IV'),
+           (1, 'I')
+    ]
+
+
+    for value, letters in romans:
+        while n >= value:
+            result += letters
+            n -= value
+    
+    return result
+
+def romanToDec(numStr):
+    return 'Roman to Dec'
+
