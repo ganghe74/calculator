@@ -69,12 +69,10 @@ def romanToDec(romanNumStr):
     romanNumStrBackup = romanNumStr
     result = 0
     for value, letters in romans:
-        count = 0
         while romanNumStr[:len(letters)] == letters:
             romanNumStr = romanNumStr[len(letters):]
             result += value
-            count += 1
 
-    if decToRoman(result) != romanNumStrBackup:
+    if decToRoman(str(result)) != romanNumStrBackup:
         return 'Error!'
     return result
