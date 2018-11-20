@@ -90,13 +90,11 @@ class Layout(QWidget):
         # Button for submitting a character
         self.guessButton = QToolButton()
         self.guessButton.setText('Guess!')
-        #self.guessButton.clicked.connect(self.guessClicked)
         statusLayout.addWidget(self.guessButton, 3, 1)
 
         # Button for a new game
         self.newGameButton = QToolButton()
         self.newGameButton.setText('New Game')
-        #self.newGameButton.clicked.connect(self.startGame)
         statusLayout.addWidget(self.newGameButton, 4, 0)
 
         # Layout placement
