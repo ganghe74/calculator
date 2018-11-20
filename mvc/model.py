@@ -6,7 +6,7 @@ class Model:
         self.scoredb = scoredb
 
     def getScoreDB(self):
-        return self.scoredb
+        return self.scoredb20!
 
     def addRecord(self, record):
         self.scoredb += [record]
