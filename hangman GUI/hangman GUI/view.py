@@ -6,9 +6,10 @@ from PyQt5.QtWidgets import QLayout, QGridLayout
 from PyQt5.QtWidgets import QTextEdit, QLineEdit, QToolButton
 from observer.observer import Observer
 
+
 class hangmanView(QTextEdit):
     def __init__(self):
-        super().__init__()
+        QTextEdit.__init__()
         self.setReadOnly(True)
         self.setAlignment(Qt.AlignLeft)
         font = self.font()
@@ -16,12 +17,18 @@ class hangmanView(QTextEdit):
         self.setFont(font)
         self.setText("hangmanView")
 
-    def update(observable):
-        self.setText(observable.hangmanList[6-observable.numTries])
+
+class hangmanObserver(Observer):
+    def __init__(self):
+        pass
+
+    def update(self, model):
+        self.hangmanView.setText(model.hangmanList[6 - model.numTries])
+
 
 class currentWordView(QLineEdit):
     def __init__(self):
-        super().__init__()
+        QLineEdit.__init__()
         self.setReadOnly(True)
         self.setAlignment(Qt.AlignCenter)
         font = self.font()
@@ -29,30 +36,46 @@ class currentWordView(QLineEdit):
         self.setFont(font)
         self.setText("currentWordView")
 
-    def update(observable):
-        self.setText(observable.currentStatus)
+class currentWordObserver(Observer):
+    def __init__(self):
+        pass
+
+    def update(self, model):
+        self.currentWordView.setText(model.currentStatus)
+
 
 class guessedCharsView(QLineEdit):
     def __init__(self):
-        super().__init__()
+        QLineEdit.__init__()
         self.setReadOnly(True)
         self.setAlignment(Qt.AlignLeft)
         self.setMaxLength(52)
         self.setText("guessedCharsView")
 
-    def update(observable):
-        self.setText(observable.guessedChars)
+
+class guessedCharsObserver(Observer):
+    def __init__(self):
+        pass
+
+    def update(self, model):
+        self.guessedCharsView.setText(model.guessedChars)
+
 
 class messageView(QLineEdit):
     def __init__(self):
-        super().__init__()
+        QLineEdit.__init__()
         self.setReadOnly(True)
         self.setAlignment(Qt.AlignLeft)
         self.setMaxLength(52)
         self.setText("messageView")
 
-    def update(observable):
-        self.setText("미구현")
+
+class messageObserver(Observer):
+    def __init__(self):
+        pass
+
+    def update(self, model):
+        self.messageView.setText("미구현")
 
 class Layout(QWidget):
 
@@ -90,11 +113,13 @@ class Layout(QWidget):
         # Button for submitting a character
         self.guessButton = QToolButton()
         self.guessButton.setText('Guess!')
+        #self.guessButton.clicked.connect(self.guessClicked)
         statusLayout.addWidget(self.guessButton, 3, 1)
 
         # Button for a new game
         self.newGameButton = QToolButton()
         self.newGameButton.setText('New Game')
+        #self.newGameButton.clicked.connect(self.startGame)
         statusLayout.addWidget(self.newGameButton, 4, 0)
 
         # Layout placement
