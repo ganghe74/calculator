@@ -21,6 +21,9 @@ class Controller:
         if char in self.model.guessedChars:
             self.model.message = "You already guessed \"" + char + "\""
             return
+        #대소문자 구별 하지 않기.
+        if ord(char)<97:
+            char=chr(ord(char)+32)
 
         self.model.addGuessedChar(char+" ")
 
