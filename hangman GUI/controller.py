@@ -6,18 +6,19 @@ class Controller:
         self.view.newGameButton.clicked.connect(self.newGame)
 
     # 추측을 1회 시행
-    # 에러나면 return False
     def guess(self):
         char = self.view.charInput.text()
-        # 1글자가 아니면 에러출력, return False
-        if len(char) != 1:
-            self.view.message.setText("One character at a time!")
-            return False
 
-        # 이미 추측한 문자인 경우 에러출력, return False
+        self.model.message = ""
+        # 1글자가 아니면 에러출력, return
+        if len(char) != 1:
+            self.model.message = "One character at a time!"
+            return
+
+        # 이미 추측한 문자인 경우 에러출력, return
         if char in self.model.guessedChars:
-            self.view.message.setText("You already guessed \"" + char + "\"")
-            return False
+            self.model.message = "You already guessed \"" + char + "\""
+            return
 
         self.model.addGuessedChar(char)
 
@@ -27,10 +28,21 @@ class Controller:
             self.model.fillBlank(char)
         else:
             self.model.incNumTries()
-        return True
+
+        if self.model.isFinished():
+            if self.model.isSuccess():
+                self.model.message = "Success"
+            if self.model.isFail():
+                self.model.message = "GAME OVER"
+            self.view.guessButton.setDisabled(True)
 
     def newGame(self, char):
-        pass
+        self.model.secretWord = self.model.word.randFromDB()
+        self.model.guessedChars = ""
+        self.model.currentStatus = "_" * len(self.model.secretWord)
+        self.model.numTries = 0
+        self.model.message = ""
+        self.view.guessButton.setDisabled(False)
 
 if __name__ == '__main__':
     import sys
@@ -41,5 +53,9 @@ if __name__ == '__main__':
     model = Model()
     view = Layout()
     controller = Controller(model, view)
+    
+    model.register(view.hangmanView, view.currentWordView, view.guessedCharsView, view.messageView)
+    model.notify()
+
     view.show()
     sys.exit(app.exec_())

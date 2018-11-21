@@ -14,9 +14,8 @@ class hangmanView(QTextEdit):
         font = self.font()
         font.setFamily('Courier New')
         self.setFont(font)
-        self.setText("hangmanView")
 
-    def update(observable):
+    def update(self, observable):
         self.setText(observable.hangmanList[6-observable.numTries])
 
 class currentWordView(QLineEdit):
@@ -27,9 +26,8 @@ class currentWordView(QLineEdit):
         font = self.font()
         font.setPointSize(font.pointSize() + 8)
         self.setFont(font)
-        self.setText("currentWordView")
 
-    def update(observable):
+    def update(self, observable):
         self.setText(observable.currentStatus)
 
 class guessedCharsView(QLineEdit):
@@ -38,9 +36,8 @@ class guessedCharsView(QLineEdit):
         self.setReadOnly(True)
         self.setAlignment(Qt.AlignLeft)
         self.setMaxLength(52)
-        self.setText("guessedCharsView")
 
-    def update(observable):
+    def update(self, observable):
         self.setText(observable.guessedChars)
 
 class messageView(QLineEdit):
@@ -49,10 +46,10 @@ class messageView(QLineEdit):
         self.setReadOnly(True)
         self.setAlignment(Qt.AlignLeft)
         self.setMaxLength(52)
-        self.setText("messageView")
+        self.setText("아래에 문자 입력후 Guess 버튼 클릭")
 
-    def update(observable):
-        self.setText("미구현")
+    def update(self, observable):
+        self.setText(observable.message)
 
 class Layout(QWidget):
 
@@ -61,26 +58,26 @@ class Layout(QWidget):
 
 
         # Hangman display window
-        self.hangmanWindow = hangmanView()
+        self.hangmanView = hangmanView()
 
         # Layout
         hangmanLayout = QGridLayout()
-        hangmanLayout.addWidget(self.hangmanWindow, 0, 0)
+        hangmanLayout.addWidget(self.hangmanView, 0, 0)
 
         # Status Layout creation
         statusLayout = QGridLayout()
 
         # Display widget for current status
-        self.currentWord = currentWordView()
-        statusLayout.addWidget(self.currentWord, 0, 0, 1, 2)
+        self.currentWordView = currentWordView()
+        statusLayout.addWidget(self.currentWordView, 0, 0, 1, 2)
 
         # Display widget for already used characters
-        self.guessedChars = guessedCharsView()
-        statusLayout.addWidget(self.guessedChars, 1, 0, 1, 2)
+        self.guessedCharsView = guessedCharsView()
+        statusLayout.addWidget(self.guessedCharsView, 1, 0, 1, 2)
 
         # Display widget for message output
-        self.message = messageView()
-        statusLayout.addWidget(self.message, 2, 0, 1, 2)
+        self.messageView = messageView()
+        statusLayout.addWidget(self.messageView, 2, 0, 1, 2)
 
         # Input widget for user selected characters
         self.charInput = QLineEdit()
